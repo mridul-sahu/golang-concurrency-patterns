@@ -8,7 +8,7 @@ import (
 func BoringGenerator(msg string) <-chan string {
 	c := make(chan string)
 
-	go func(){
+	go func() {
 		for i := 0; ; i++ {
 			c <- fmt.Sprintf("%s %d", msg, i)
 			time.Sleep(time.Second)

@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 type Message struct {
-	msg string
+	msg  string
 	wait chan bool
 }
 
@@ -20,7 +20,7 @@ func BoringSyncedGenerator(msg string) <-chan Message {
 	return m
 }
 
-func BoringSequentialFanIn(syncedChans... <-chan Message) <-chan string {
+func BoringSequentialFanIn(syncedChans ... <-chan Message) <-chan string {
 	c := make(chan string)
 
 	go func() {

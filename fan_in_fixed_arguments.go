@@ -6,8 +6,10 @@ func BoringFanInFixedArguments(input1, input2 <-chan string) <-chan string {
 	go func() {
 		for {
 			select {
-			case s := <-input1: c <- s
-			case s := <-input2: c <- s
+			case s := <-input1:
+				c <- s
+			case s := <-input2:
+				c <- s
 			}
 		}
 	}()

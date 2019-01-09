@@ -7,10 +7,10 @@ import (
 
 type Request struct {
 	query string
-	data chan string
+	data  chan string
 }
 
-func SendWhenAvailable() chan<-Request {
+func SendWhenAvailable() chan<- Request {
 	r := make(chan Request)
 
 	go func(r <-chan Request) {
