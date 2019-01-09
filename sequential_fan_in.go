@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type Message struct {
 	msg  string
@@ -24,11 +27,17 @@ func BoringSequentialFanIn(syncedChans ... <-chan Message) <-chan string {
 	c := make(chan string)
 
 	go func() {
-		var msgs []Message
-
-		for _, v := range syncedChans {
-			msgs = append(msgs, <-v)
+		msgs := make([]Message, len(syncedChans))
+		wg := sync.WaitGroup{}
+		wg.Add(len(syncedChans))
+		for i, v := range syncedChans {
+			go func(idx int, x <-chan Message) {
+				msgs[idx] = <-x
+				wg.Done()
+			} (i, v)
 		}
+
+		wg.Wait()
 
 		for _, v := range msgs {
 			c <- v.msg
